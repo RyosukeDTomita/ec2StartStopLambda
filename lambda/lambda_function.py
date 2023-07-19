@@ -8,6 +8,7 @@ import json
 import os
 import base64
 import boto3
+import time
 
 
 region = 'ap-northeast-1'
@@ -31,6 +32,7 @@ def lambda_handler(event, context):
         # インスタンスの起動を待つ
         # waiter = ec2_client.get_waiter('instance_status_ok')
         # waiter.wait(InstanceIds=instance_ids)
+        time.sleep(10)
         print("-----Starting-----")
     elif (action == "Stop"):
         ec2_client.stop_instances(InstanceIds=instance_ids)
@@ -46,13 +48,12 @@ def lambda_handler(event, context):
 
         # コマンドを実行
         print([instance_ids[i]])
-        run_command = _get_command(instance_name)
         ssm = boto3.client('ssm')
-        r = ssm.send_command(
+        ssm.send_command(
             InstanceIds=[instance_ids[i]],
             DocumentName="AWS-RunShellScript",
             Parameters={
-                "commands": ["touch test"]
+                "commands": [_get_command(instance_name)]
             }
         )
 
