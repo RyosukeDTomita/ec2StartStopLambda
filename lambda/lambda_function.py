@@ -32,7 +32,6 @@ def lambda_handler(event, context):
         # インスタンスの起動を待つ
         # waiter = ec2_client.get_waiter('instance_status_ok')
         # waiter.wait(InstanceIds=instance_ids)
-        time.sleep(10)
         print("-----Starting-----")
     elif (action == "Stop"):
         ec2_client.stop_instances(InstanceIds=instance_ids)
@@ -57,7 +56,7 @@ def lambda_handler(event, context):
             }
         )
 
-        _return_status()
+        return _return_status()
 
 
 def _fetch_env_dict():
