@@ -56,7 +56,7 @@ def lambda_handler(event, context):
             }
         )
 
-        return _return_status()
+    return _return_status()
 
 
 def _fetch_env_dict():
